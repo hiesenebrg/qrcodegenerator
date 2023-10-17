@@ -23,7 +23,7 @@ module.exports.qrgenerator = async function (req, res) {
 const nameWithoutSpaces = originalName.replace(/\s+/g, '');
         res.status(200).send({
           message: "Hurray!QR Code geneerated!",
-          data: `http://localhost:8000/${outputPath}/${nameWithoutSpaces}.png`,
+          data: `https://qrcodegenrator.onrender.com/${outputPath}/${nameWithoutSpaces}.png`,
         });
       }
     });
