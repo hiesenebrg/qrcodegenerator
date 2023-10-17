@@ -19,7 +19,7 @@ module.exports.qrgenerator = async function (req, res) {
       } else {
         res.status(200).send({
           message: "Hurray!QR Code geneerated!",
-          data: `http://localhost:8000/${outputPath}/${req.body.name}.png`,
+          data: `https://qrcodegenrator.onrender.com/${outputPath}/${req.body.name}.png`,
         });
       }
     });
