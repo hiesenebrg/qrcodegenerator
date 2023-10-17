@@ -17,9 +17,11 @@ module.exports.qrgenerator = async function (req, res) {
           error: err,
         });
       } else {
+           const originalName = req.body.name; // The name with spaces
+            const nameWithoutSpaces = originalName.replace(/\s+/g, '');
         res.status(200).send({
-          message: "Hurray!QR Code geneerated!",
-          data: `https://qrcodegenrator.onrender.com/${outputPath}/${req.body.name}.png`,
+          message: "Hurray!QR Code generated!",
+          data: `https://qrcodegenrator.onrender.com/${outputPath}/${nameWithoutSpaces}.png`,
         });
       }
     });
