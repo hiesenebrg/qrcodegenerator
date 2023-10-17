@@ -10,7 +10,7 @@ module.exports.qrgenerator = async function (req, res) {
   try {
       const originalName = req.body.name; // The name with spaces
             const nameWithoutSpaces = originalName.replace(/\s+/g, '');
-    let vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${req.body.name}\nTEL:${req.body.mobile}\nORG:${req.body.org}\nTITLE:${req.body.title}\nEMAIL;TYPE=work:${req.body.email}\nEND:VCARD`;
+    let vCardData = `BEGIN:VCARD\nVERSION:3.0\nN:${req.body.name}\nTEL:${req.body.mobile}\nORG:${req.body.org}\nTITLE:${req.body.title}\nEMAIL;TYPE=work:${req.body.email}\nEND:VCARD`;
 
     QRCode.toFile(`${currentDirectory}/uploads/${nameWithoutSpaces}.png`, vCardData, (err) => {
       if (err) {
