@@ -1,6 +1,7 @@
 const QRCode = require("qrcode");
 const outputPath = "uploads";
 const fs = require('fs');
+const { error } = require("console");
 if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath);
   }
@@ -12,18 +13,22 @@ module.exports.qrgenerator = async function (req, res) {
 
     QRCode.toFile(`${currentDirectory}/uploads/${req.body.name}.png`, vCardData, (err) => {
       if (err) {
+        console.log(error)
         res.status(500).send({
           message: "Internal server Errors!",
           error: err,
         });
       } else {
+        const originalName = req.body.name; // The name with spaces
+const nameWithoutSpaces = originalName.replace(/\s+/g, '');
         res.status(200).send({
           message: "Hurray!QR Code geneerated!",
-          data: `https://qrcodegenrator.onrender.com/${outputPath}/${req.body.name}.png`,
+          data: `http://localhost:8000/${outputPath}/${nameWithoutSpaces}.png`,
         });
       }
     });
   } catch (error) {
+    console.log(error)
     res.status(500).send({
       message: "Internal server Error!",
       error: error,
