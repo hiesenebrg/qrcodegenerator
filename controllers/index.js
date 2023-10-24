@@ -50,7 +50,7 @@ module.exports.qrgenerator = async (req, res) => {
            
             <style>
             .container{
-              height: 32vh;
+              height: 92vh;
               width:80vw;
               margin:auto;
               padding:10px;
@@ -66,7 +66,8 @@ module.exports.qrgenerator = async (req, res) => {
               border-radius: 6px;
             }
             .heading{
-              height: 30%;
+              margin-top:-10px;
+              height: 35%;
               width:96%;
             }
             #logo{
@@ -80,7 +81,8 @@ module.exports.qrgenerator = async (req, res) => {
               display: flex;
               flex-direction: row;
               align-items: center;
-              margin-top:-15px;
+              margin-top:-25px;
+              gap:30px;
             
             }.details{
               height: 96%;
@@ -90,6 +92,8 @@ module.exports.qrgenerator = async (req, res) => {
               flex-direction: column;
               align-items: flex-start;
               justify-content: center;
+              margin-top:-15px;
+              
               
               
             
@@ -119,7 +123,7 @@ module.exports.qrgenerator = async (req, res) => {
             </div>
             <div class="info">
               <div class="details">
-                <div class="name">
+                <div class="name" style=" font-stretch: expanded;">
                   ${req.body.name}
                 </div>
                ${req.body.title}
@@ -151,21 +155,24 @@ module.exports.qrgenerator = async (req, res) => {
           const browser = await puppeteer.launch();
           const page = await browser.newPage();
 
+          // Set a reasonable viewport size
+          await page.setViewport({ width: 800, height: 360 }); // Adjust width and height as needed
+
           // Navigate to an HTML page
           await page.setContent(htmlContent);
 
-          // Generate a PDF from the HTML
-          const pdfBuffer = await page.pdf({ format: 'A4' }); // You can customize the format as needed
+          // Generate a screenshot of the page in JPEG format
+          const screenshotBuffer = await page.screenshot({ type: 'jpeg' });
 
           // Close the browser
           await browser.close();
 
-          // Set the response headers for a PDF file
-          res.setHeader("Content-Type", "application/pdf");
-          res.setHeader("Content-Disposition", "attachment; filename=digital_card.pdf");
+          // Set the response headers for a JPEG image
+          res.setHeader("Content-Type", "image/jpeg");
+          res.setHeader("Content-Disposition", "attachment; filename=digital_card.jpg");
 
-          // Send the PDF buffer as the response
-          return res.status(200).send(pdfBuffer);
+          // Send the JPEG image buffer as the response
+          return res.status(200).send(screenshotBuffer);
         } catch (error) {
           console.log("error in styling: ", error);
           return res.status(500).send({
@@ -183,3 +190,6 @@ module.exports.qrgenerator = async (req, res) => {
     });
   }
 };
+
+
+// 
